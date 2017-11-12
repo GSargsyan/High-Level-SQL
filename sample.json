@@ -1,0 +1,51 @@
+CREATE DATABASE university
+
+# mappings --- 0 is one to one, 1 is one to many, 2 is many to one, 3 is many to many:
+ 
+CREATE TABLE students
+{
+	"firstName": 
+	{
+		"type": "string",
+		"reference": "is"
+	},
+	"lastName": 
+	{
+		"type": "string",
+		"reference": "is"
+	},
+	"age":
+	{
+		"type": "number",
+		"reference": "age"
+	}
+}
+
+CREATE TABLE courses
+{
+	"name":
+	{
+		"type": "string",
+		"reference": "is"
+	},
+	"creadits":
+	{
+		"type": "number",
+		"reference": "is"
+	}
+}
+
+CREATE TABLE course_students
+{
+	"student":
+	{
+		"type": "mapping",
+		"points": "students"
+	},
+	"course":
+	{
+		"type": "mapping",
+		"points": "courses"
+	}
+
+}
