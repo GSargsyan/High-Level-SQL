@@ -9,6 +9,8 @@ class Databases:
         else:
             error('Database ' + name + ' already exists')
 
+        open('databases/' + name + '/meta.json', 'r'):
+
     @staticmethod
     def create_db(name):
         create_database(name)
@@ -21,3 +23,16 @@ class Tables:
             meta = json.loads(meta_str)
         except:
             error('Failed to load meta of the table')
+
+    @staticmethod
+    def parse_meta(meta):
+        if not isinstance(meta, dict):
+            error('Invalid meta provided')
+
+        for colname, data in meta.items():
+            pass
+         
+    @staticmethod
+    def parse_column(meta):
+        if not isinstance(meta, dict):
+            error('Invalid meta provided')

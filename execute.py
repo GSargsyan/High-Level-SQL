@@ -16,9 +16,6 @@ if DEBUG_MODE == 1:
     get_execute_query()
 else:
     try:
-        query = Query(input())
-        query.execute()
+        get_execute_query()
     except Exception as ex:
         print(str(ex))
-
-

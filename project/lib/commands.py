@@ -40,7 +40,8 @@ CONDITION_PRONOUNS = (
         )
 
 FIELD_REFERENCES = {
-        'general': ('IS', 'ARE', 'HAS', 'HAD', 'HAVE'),
+        'general': ('IS', 'ARE', 'HAS', 'HAD', 'HAVE', 'BEEN'),
         'name': ('CALLED', 'NAMED', 'IS', 'ARE', 'WAS', 'WERE'),
         'location': ('LOCATED', 'FROM', 'IN', 'ON', 'AT'),
+        'age': ('YEAR OLD', 'IS', 'ARE')
         }

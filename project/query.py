@@ -33,6 +33,7 @@ class Query:
     def set_target(self):
         input = self.query[1]
         second = input.lower()
+
         self.target = None
         for target in TARGETS:
             if second == target:
