@@ -12,10 +12,11 @@ def get_execute_query():
 
 from project.query import Query
 
-if DEBUG_MODE == 1:
-    get_execute_query()
-else:
-    try:
+while True:
+    if DEBUG_MODE == 1:
         get_execute_query()
-    except Exception as ex:
-        print(str(ex))
+    else:
+        try:
+            get_execute_query()
+        except Exception as ex:
+            print(str(ex))

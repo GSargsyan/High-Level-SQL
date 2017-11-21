@@ -1,12 +1,25 @@
+from project.lib.databases import Databases
+from project.lib.tables import Tables
+
 COMMANDS = {
         'select': ('SELECT', 'VIEW', 'SHOW', 'GET', 'BRING', 'DISPLAY', ),
         'create': ('CREATE', 'INSERT', 'MAKE', 'BUILD', 'INITIATE'),
         'delete': ('REMOVE', 'DROP', 'DELETE', 'ELIMINATE', 'CUT'),
-        'update': ('UPDATE', 'CHANGE', 'ALTER', 'MODIFY', 'ADJUST', 'ALTERNATE', 'REMAKE')
+        'update': ('UPDATE', 'CHANGE', 'ALTER', 'MODIFY', 'ADJUST', 'ALTERNATE', 'REMAKE'),
+        'use': ('USE')
+        }
+
+FUNCTIONS = {
+        'create': {
+                'database': Databases().create_database,
+                'table': Tables().create_table
+            },
+        'use': Tables().set_database
         }
 
 NONOBJECTIVE = (
         'select',
+        'use'
         )
 
 TARGETS = (
@@ -23,12 +36,6 @@ FIELDS = {
         'min': ('MIN', 'MINIMUM', 'LOWEST', 'LEAST'),
         'avg': ('AVG', 'AVERAGE'),
         'sum': ('SUM'),
-        }
-
-FUNCTION_CLASSES = {
-        'create_database': 'Databases',
-        'create_db': 'Databases',
-        'create_table': 'Tables'
         }
 
 CONDITION_PRONOUNS = (

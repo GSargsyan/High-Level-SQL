@@ -13,8 +13,11 @@ def syntax_err(msg):
 def success(msg):
     print(colored(msg, 'green'))
 
-def mkdir(path, dir_name):
-    if not os.path.exists(path + name):
-        os.makedirs(path + name)
+def warning(msg):
+    print(colored(msg, 'yellow'))
+
+def mkdir(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
         return True
     return False
