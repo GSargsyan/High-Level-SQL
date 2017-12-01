@@ -46,11 +46,11 @@ class Query:
 
     def get_create_args(self):
         if self.target == 'table':
-            if self.query[2].lower() != 'with':
-                syntax_err(self.query[2])
-            if self.query[3].lower() != 'meta':
+            if self.query[3].lower() != 'with':
                 syntax_err(self.query[3])
-            return '{}'.format(''.join(self.query[4].split()))
+            if self.query[4].lower() != 'meta':
+                syntax_err(self.query[4])
+            return '{}'.format(''.join(self.query[5].split()))
         elif self.target == 'database':
             return '{}'.format(self.query[2])
 

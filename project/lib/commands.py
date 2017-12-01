@@ -22,6 +22,12 @@ NONOBJECTIVE = (
         'use'
         )
 
+DATA_TYPES = (
+        'string',
+        'number',
+        'boolean'
+        )
+
 TARGETS = (
         'database',
         'db',
@@ -46,7 +52,7 @@ CONDITION_PRONOUNS = (
         'THAT'
         )
 
-FIELD_REFERENCES = {
+REFERENCE_TYPES = {
         'general': ('IS', 'ARE', 'HAS', 'HAD', 'HAVE', 'BEEN'),
         'name': ('CALLED', 'NAMED', 'IS', 'ARE', 'WAS', 'WERE'),
         'location': ('LOCATED', 'FROM', 'IN', 'ON', 'AT'),
