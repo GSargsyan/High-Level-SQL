@@ -22,17 +22,17 @@ NONOBJECTIVE = (
         'use'
         )
 
-DATA_TYPES = (
-        'string',
-        'number',
-        'boolean'
-        )
-
 TARGETS = (
         'database',
         'db',
         'table',
         'index',
+        )
+
+DATA_TYPES = (
+        'text',
+        'number'
+        'bool'
         )
 
 FIELDS = {

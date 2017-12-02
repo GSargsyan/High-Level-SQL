@@ -1,8 +1,18 @@
 import json
+import ijson
 
 class Writer:
-    def write(data):
-        
+    @staticmethod
+    def write(file_path, data, is_json=True):
+        with open(file_path, 'a') as f:
+            try:
+                if is_json:
+                    json.dump(data, f)
+                else:
+                    f.write(data)
+            except:
+                throw('Failed writing data to file')
+
 
 class Reader:
     def read(file_path):
@@ -11,3 +21,9 @@ class Reader:
                 return json.load(f)
             except:
                 throw('Failed parsing file contents')
+
+    @staticmethod
+    def read_obj(file_path, obj_name):
+        f = open(file_path, 'rb')
+        for i in ijson.items(f, obj_name):
+            print(i)

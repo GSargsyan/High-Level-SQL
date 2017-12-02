@@ -1,17 +1,15 @@
 CREATE DATABASE university
-
-# mappings --- 0 is one to one, 1 is one to many, 2 is many to one, 3 is many to many:
  
 CREATE TABLE students
 {
 	"firstName": 
 	{
-		"type": "string",
+		"type": "text",
 		"reference": "name"
 	},
 	"lastName": 
 	{
-		"type": "string",
+		"type": "text",
 		"reference": "name"
 	},
 	"age":
@@ -25,7 +23,7 @@ CREATE TABLE courses
 {
 	"name":
 	{
-		"type": "string",
+		"type": "text",
 		"reference": "general"
 	},
 	"credits":

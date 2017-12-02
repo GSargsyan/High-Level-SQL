@@ -17,7 +17,7 @@ class Query:
         args = eval('self.get_' + self.type + '_args()')
         func = FUNCTIONS[self.type][self.target] if self.target != None \
             else FUNCTIONS[self.type]
-        func(args)
+        func(*args)
 
 
     def set_type(self):
@@ -50,9 +50,11 @@ class Query:
                 syntax_err(self.query[3])
             if self.query[4].lower() != 'meta':
                 syntax_err(self.query[4])
-            return '{}'.format(''.join(self.query[5].split()))
+            return [self.query[2],
+                    ''.join(self.query[5].split())]
         elif self.target == 'database':
-            return '{}'.format(self.query[2])
+            return [self.query[2]]
+
 
     def get_use_args(self):
-        return self.query[1]
+        return [self.query[1]]
