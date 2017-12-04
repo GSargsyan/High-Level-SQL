@@ -3,24 +3,32 @@ from project.lib.tables import Tables
 
 COMMANDS = {
         'select': ('SELECT', 'VIEW', 'SHOW', 'GET', 'BRING', 'DISPLAY', ),
-        'create': ('CREATE', 'INSERT', 'MAKE', 'BUILD', 'INITIATE'),
+        'create': ('CREATE', 'MAKE', 'BUILD', 'INITIATE'),
         'delete': ('REMOVE', 'DROP', 'DELETE', 'ELIMINATE', 'CUT'),
         'update': ('UPDATE', 'CHANGE', 'ALTER', 'MODIFY', 'ADJUST', 'ALTERNATE', 'REMAKE'),
+        'insert': ('INSERT', 'ADD'),
         'use': ('USE')
         }
+
+ARGS = {
+        'insert': ('INTO', 'TO'),
+        'delete': ('FROM')
+        }
+
+NONOBJECTIVE = (
+        'select',
+        'use',
+        'insert',
+        )
 
 FUNCTIONS = {
         'create': {
                 'database': Databases().create_database,
                 'table': Tables().create_table
             },
-        'use': Tables().set_database
+        'use': Tables().set_database,
+        'insert': Tables().insert_data
         }
-
-NONOBJECTIVE = (
-        'select',
-        'use'
-        )
 
 TARGETS = (
         'database',
@@ -31,7 +39,7 @@ TARGETS = (
 
 DATA_TYPES = (
         'text',
-        'number'
+        'number',
         'bool'
         )
 

@@ -22,7 +22,7 @@ class Query:
 
     def set_type(self):
         input = self.query[0]
-        first = input.upper() 
+        first = input.upper()
         self.type = None
         for command, alts in COMMANDS.items():
             if first in alts:
@@ -34,15 +34,27 @@ class Query:
         self.target = None
         if self.type in NONOBJECTIVE:
             return
-
-        input = self.query[1]
-        second = input.lower()
-        for target in TARGETS:
-            if second == target:
-                target = 'database' if target == 'db' else target
+        allowed_mistakes = 4
+        starting_word = 1
+        found = None
+        for i in range(starting_word, allowed_mistakes):
+            if i >= len(self.query):
+                break
+            target = self.__get_target(self.query[i])
+            if target != None:
                 self.target = target
+                found = True
+                break
+        if not found:
+            syntax_err(' '.join(self.query[
+                starting_word: i]))
+
+    def __get_target(self, inp):
+        for target in TARGETS:
+            if inp == target:
+                target = 'database' if target == 'db' else target
                 return target
-        syntax_err(input)
+        return None
 
     def get_create_args(self):
         if self.target == 'table':
@@ -55,6 +67,21 @@ class Query:
         elif self.target == 'database':
             return [self.query[2]]
 
+    def get_select_args(self):
+        error('not yet implemented')
+
+    def get_insert_args(self):
+        data_index = None
+        for cmd in self.query[1:]:
+            if cmd[0] == '{' and cmd[-1] == '}':
+                data = cmd
+        if data_index is None:
+            error('Please provide data for insertion')
+
+        # TODO: continue from here.
+        set(ARGS['INSERT']).isdisjoint(self.query)
+
+        return [tb_name, data]
 
     def get_use_args(self):
         return [self.query[1]]

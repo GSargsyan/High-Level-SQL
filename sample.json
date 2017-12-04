@@ -69,3 +69,17 @@ CREATE TABLE course_departments
 		"points": "departments"
 	}
 }
+
+
+create table courses with meta {"firstName":{"type":"text","reference":"name"},"lastName":{"type":"text","reference":"name"},"age":{"type":"number","reference":"age"}}
+
+
+
+create table courses with meta {"name":{"type":"text","reference":"general"},"credits":{"type":"number","reference":"general"}}
+
+
+create table departments with meta {"name":{"type":"text","reference":"name"}}
+
+create table course_students with meta {"student":{"type":"mapping","points":"students"},"course":{"type":"mapping","points":"courses"}}
+
+create table course_departments with meta {"course":{"type":"mapping","points":"courses"},"department":{"type":"mapping","points":"departments"}}
