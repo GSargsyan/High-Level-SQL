@@ -71,9 +71,7 @@ CREATE TABLE course_departments
 }
 
 
-create table courses with meta {"firstName":{"type":"text","reference":"name"},"lastName":{"type":"text","reference":"name"},"age":{"type":"number","reference":"age"}}
-
-
+create table students with meta {"firstName":{"type":"text","reference":"name"},"lastName":{"type":"text","reference":"name"},"age":{"type":"number","reference":"age"}}
 
 create table courses with meta {"name":{"type":"text","reference":"general"},"credits":{"type":"number","reference":"general"}}
 

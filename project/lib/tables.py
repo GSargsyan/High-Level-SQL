@@ -74,10 +74,10 @@ class Tables:
 
 
 class Table:
-    def __init__(db, name, self):
+    def __init__(self, db, name):
         if not isinstance(db, Database):
             error('Provided database is not of type Database')
-        if not os.path.exists(self.__db.path + name):
+        if not os.path.exists(db.path + name):
             error('Table ' + name + ' doesn\'t exist')
 
         self.__db = db
@@ -85,8 +85,11 @@ class Table:
         self.__path = self.__db.path + self.__name
 
 
-    def insert(self, data):
-        pass
+    def insert(self, json_data):
+        try:
+            data = json.loads(json_data)
+        except:
+            error('Failed parsing JSON data')
 
     def select(self, fields):
         pass

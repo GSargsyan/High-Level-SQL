@@ -17,7 +17,7 @@ class Databases:
 class Database:
     def __init__(self, name):
         self.name = name
-        self.path = DBS_PATH + '/' + name + '/'
+        self.path = DBS_PATH + name + '/'
         self.meta_path = self.path + 'meta.json'
 
     def has_table(self, tb_name):

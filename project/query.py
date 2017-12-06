@@ -1,6 +1,6 @@
 from project.lib.databases import Databases
 from project.lib.tables import Tables
-from project.lib.helper import syntax_err
+from project.lib.helper import syntax_err, error
 from project.lib.commands import *
 
 
@@ -72,16 +72,29 @@ class Query:
 
     def get_insert_args(self):
         data_index = None
+        data = None
+        tb_name = None
         for cmd in self.query[1:]:
             if cmd[0] == '{' and cmd[-1] == '}':
                 data = cmd
-        if data_index is None:
+        if data is None:
             error('Please provide data for insertion')
 
-        # TODO: continue from here.
-        set(ARGS['INSERT']).isdisjoint(self.query)
+        query_upper = self.__as_upper()
+        for arg in ARGS['insert']:
+            if arg in query_upper:
+                tb_name = self.query[query_upper.index(arg) + 1]
+
+        if tb_name is None:
+            error('Table name was not found in insert statement')
 
         return [tb_name, data]
 
     def get_use_args(self):
         return [self.query[1]]
+
+    def __as_upper(self):
+        return [elem.upper() for elem in self.query] 
+
+    def __as_lower(self):
+        return [elem.lower() for elem in self.query] 
