@@ -21,3 +21,11 @@ def mkdir(path):
         os.makedirs(path)
         return True
     return False
+
+def rec_search(nee, hay):
+    if nee in hay:
+        return hay[nee]
+    for k, v in hay.items():
+        if isinstance(v, dict):
+            rec_search(nee, v)
+    return None

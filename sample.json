@@ -81,3 +81,6 @@ create table departments with meta {"name":{"type":"text","reference":"name"}}
 create table course_students with meta {"student":{"type":"mapping","points":"students"},"course":{"type":"mapping","points":"courses"}}
 
 create table course_departments with meta {"course":{"type":"mapping","points":"courses"},"department":{"type":"mapping","points":"departments"}}
+
+
+insert into students data {"firstName": "Grigor", "lastName": "Sargsyan", "age": 22}

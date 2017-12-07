@@ -25,5 +25,5 @@ class Reader:
     @staticmethod
     def read_obj(file_path, obj_name):
         f = open(file_path, 'rb')
-        for i in ijson.items(f, obj_name):
-            print(i)
+        gen_obj = ijson.items(f, obj_name)
+        return next(gen_obj)

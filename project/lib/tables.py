@@ -1,9 +1,9 @@
 from project.lib.databases import *
-from project.lib.helper import mkdir
 from project.lib.io import Writer, Reader
 from configs import DBS_PATH
 import os
 import json
+import project
 
 class Tables:
     data_types = ('text', 'number', 'boolean')
@@ -26,9 +26,10 @@ class Tables:
             error('Invalid JSON provided')
 
         if Tables.is_valid_meta(meta):
+            meta['id'] = {'type': 'serial'}
             mkdir(Tables.db.path + tb_name)
             # Reader().read_obj(path, tb_name)
-            Writer().write(file_path=Tables.db.meta_path,
+            Writer().write(file_path=Tables.db.path + 'meta.json',
                     data={tb_name: meta})
         success('Created table ' + tb_name)
 
@@ -38,17 +39,19 @@ class Tables:
         if not isinstance(meta, dict):
             error('Invalid meta provided')
 
-        for colname, data in meta.items():
+        for col_name, data in meta.items():
+            if 'type' not in data:
+                error('Type of column ' + col_name ' is not specified')
             if data['type'] == 'mapping':
                 if 'points' not in data:
-                    error('Invalid meta provided for ' + colname)
+                    error('Invalid meta provided for ' + col_name)
                 elif not Tables.db.has_table(data['points']):
                     error('Table ' + data['points'] + ' doesn\'t exist')
             else:
                 if data['type'] not in DATA_TYPES:
                     error('Unknown data type: ' + data['type'])
                 elif 'reference' not in data:
-                    error('Invalid meta provided for ' + colname)
+                    error('Invalid meta provided for ' + col_name)
                 elif data['reference'] not in REFERENCE_TYPES:
                     error('Unknown reference type: ' + data['reference'])
         return True
@@ -82,14 +85,31 @@ class Table:
 
         self.__db = db
         self.__name = name
-        self.__path = self.__db.path + self.__name
-
 
     def insert(self, json_data):
+        from project.lib.commands import REFERENCE_TYPES, DATA_TYPES
         try:
             data = json.loads(json_data)
         except:
             error('Failed parsing JSON data')
+        tb_meta = Reader.read_obj(self.__db.path + 'meta.json', self.__name)
+        for col_name, val in data:
+            col_meta = tb_meta.get(col_name, None)
+            col_type = col_meta['type']
+
+            if col_meta is None:
+                error('No column named ' + col_name)
+            if col_type == 'text' and not isinstance(val, str):
+                error('Expected string for column ' + col_name)
+            elif col_type == 'bool' and not type(val) != type(True):
+                error('Expected boolean for column ' + col_name)
+            elif col_type == 'number' and not isinstance(val, (int, float))
+                error('Expected number for column ' + col_name)
+            # TODO: additional checkings ?
+
+    def gen_id(tb)
+        # TODO: implement concept of id
+        pass
 
     def select(self, fields):
         pass
