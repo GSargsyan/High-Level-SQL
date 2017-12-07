@@ -15,10 +15,9 @@ class Query:
         self.set_target()
 
         args = eval('self.get_' + self.type + '_args()')
-        func = FUNCTIONS[self.type][self.target] if self.target != None \
+        func = FUNCTIONS[self.type][self.target] if self.target is not None \
             else FUNCTIONS[self.type]
         func(*args)
-
 
     def set_type(self):
         input = self.query[0]
@@ -41,7 +40,7 @@ class Query:
             if i >= len(self.query):
                 break
             target = self.__get_target(self.query[i])
-            if target != None:
+            if target is not None:
                 self.target = target
                 found = True
                 break
@@ -71,7 +70,6 @@ class Query:
         error('not yet implemented')
 
     def get_insert_args(self):
-        data_index = None
         data = None
         tb_name = None
         for cmd in self.query[1:]:
@@ -94,7 +92,7 @@ class Query:
         return [self.query[1]]
 
     def __as_upper(self):
-        return [elem.upper() for elem in self.query] 
+        return [elem.upper() for elem in self.query]
 
     def __as_lower(self):
-        return [elem.lower() for elem in self.query] 
+        return [elem.lower() for elem in self.query]

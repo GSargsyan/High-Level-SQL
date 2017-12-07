@@ -1,6 +1,7 @@
-import os
-from project.lib.helper import *
 from configs import DBS_PATH
+from project.lib.helper import error, success, touch, mkdir
+import os
+
 
 class Databases:
     @staticmethod
@@ -10,8 +11,7 @@ class Databases:
             success('Created database ' + db_name)
         else:
             error('Database ' + db_name + ' already exists')
-
-        open(path + '/meta.json', 'w')
+        touch(path + '/meta.json')
 
 
 class Database:

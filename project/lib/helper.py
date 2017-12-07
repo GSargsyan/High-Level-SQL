@@ -1,5 +1,5 @@
-import os
 from termcolor import colored
+import os
 
 def throw(msg):
     raise Exception(msg)
@@ -21,6 +21,9 @@ def mkdir(path):
         os.makedirs(path)
         return True
     return False
+
+def touch(path):
+    open(path, 'w')
 
 def rec_search(nee, hay):
     if nee in hay:

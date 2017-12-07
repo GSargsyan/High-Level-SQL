@@ -1,9 +1,10 @@
-from project.lib.databases import *
+from project.lib.databases import Database
 from project.lib.io import Writer, Reader
+from project.lib.helper import success, error, mkdir, warning, touch
 from configs import DBS_PATH
 import os
 import json
-import project
+
 
 class Tables:
     data_types = ('text', 'number', 'boolean')
@@ -18,19 +19,24 @@ class Tables:
     @staticmethod
     @check_database
     def create_table(tb_name, meta_str):
-        if os.path.exists(DBS_PATH + Tables.db.name + '/' + tb_name):
+        if os.path.exists(Tables.db.path + tb_name):
             error('Table ' + tb_name + ' already exists')
         try:
             meta = json.loads(meta_str)
-        except:
+        except Exception:
             error('Invalid JSON provided')
 
         if Tables.is_valid_meta(meta):
-            meta['id'] = {'type': 'serial'}
             mkdir(Tables.db.path + tb_name)
-            # Reader().read_obj(path, tb_name)
-            Writer().write(file_path=Tables.db.path + 'meta.json',
-                    data={tb_name: meta})
+            count_path = Tables.db.path + 'counters.json'
+            if not os.path.exists(count_path):
+                touch(count_path)
+                Writer.write(count_path, data=[{tb_name: 1}])
+            else:
+                Writer.add_val(count_path, val={tb_name: 1})
+
+            Writer.write(file_path=Tables.db.path + 'meta.json',
+                         data={tb_name: meta}, mode='a')
         success('Created table ' + tb_name)
 
     @staticmethod
@@ -41,7 +47,7 @@ class Tables:
 
         for col_name, data in meta.items():
             if 'type' not in data:
-                error('Type of column ' + col_name ' is not specified')
+                error('Type of column ' + col_name + ' is not specified')
             if data['type'] == 'mapping':
                 if 'points' not in data:
                     error('Invalid meta provided for ' + col_name)
@@ -70,6 +76,7 @@ class Tables:
     def select_from_table(tb_name, *args, **kwargs):
         pass
 
+    @check_database
     @staticmethod
     def insert_data(tb_name, data):
         table = Table(Tables.db, tb_name)
@@ -87,10 +94,9 @@ class Table:
         self.__name = name
 
     def insert(self, json_data):
-        from project.lib.commands import REFERENCE_TYPES, DATA_TYPES
         try:
             data = json.loads(json_data)
-        except:
+        except Exception:
             error('Failed parsing JSON data')
         tb_meta = Reader.read_obj(self.__db.path + 'meta.json', self.__name)
         for col_name, val in data:
@@ -101,15 +107,27 @@ class Table:
                 error('No column named ' + col_name)
             if col_type == 'text' and not isinstance(val, str):
                 error('Expected string for column ' + col_name)
-            elif col_type == 'bool' and not type(val) != type(True):
+            elif col_type == 'bool' and not isinstance(val, bool):
                 error('Expected boolean for column ' + col_name)
-            elif col_type == 'number' and not isinstance(val, (int, float))
+            elif col_type == 'number' and not isinstance(val, (int, float)):
                 error('Expected number for column ' + col_name)
-            # TODO: additional checkings ?
 
-    def gen_id(tb)
-        # TODO: implement concept of id
-        pass
+        data['id'] = self.__get_next_id()
+        self.__increment_id()
+        # TODO: write inserted data to some file.
 
-    def select(self, fields):
-        pass
+
+    def __get_next_id(self):
+        counters = Reader.read_list(self.__db.path + 'counters.json') 
+        for item in counters:
+            if self.__name in item:
+                return item[self.__name] + 1
+
+    def __increment_id(self):
+        counters = Reader.read_list(self.__db.path + 'counters.json') 
+        for item in counters:
+            if self__name in item:
+                counters[counters.index(item)] =\
+                        {self__name: item[self__name] + 1}
+                Writer.write(self__db.path + 'counters.json',
+                             data=counters, mode='w')
